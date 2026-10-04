@@ -61,11 +61,11 @@
     const path = location.pathname;
     let pool;
     if (path.includes("rdcn")) {
-      pool = CN_LINKS;
+      pool = PRANK_LINKS;
     } else if (path.includes("rd.html")) {
       pool = INTL_LINKS;
     } else {
-      pool = CN_LINKS; // 其他乱写的路径默认走国内池
+      pool = PRANK_LINKS; // 其他乱写的路径默认走国内池
     }
 
     // 随机挑一个目标
