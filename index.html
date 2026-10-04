@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jump - 整蛊跳转页</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #f7f8fa;
+      color: #333;
+      line-height: 1.7;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      letter-spacing: 2px;
+      color: #4f46e5;
+    }
+    .hero .tagline {
+      margin-top: 12px;
+      font-size: 18px;
+      color: #666;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 12px 36px;
+      background: #4f46e5;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #4338ca; }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+    section { margin-bottom: 48px; }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: #222;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .card h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+      color: #4f46e5;
+    }
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+    ol {
+      padding-left: 22px;
+    }
+    ol li { margin-bottom: 8px; }
+    .notice {
+      background: #fff;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #999;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>Jump</h1>
+    <p class="tagline">一个专门用来整蛊朋友的网站重定向页面</p>
+    <a class="btn" href="rd.html">立即体验</a>
+  </div>
+
+  <main>
+    <section>
+      <h2>这是什么</h2>
+      <p>
+        Jump 是一个玩笑性质的跳转页。当有人点开你分享的链接，页面不会多说一句话，
+        而是直接把人随机带去一个整蛊内容——比如经典 Rickroll、彩虹猫、满屏弹跳猫。
+        对方满怀期待点进来，然后一脸问号地被"整"了。
+      </p>
+    </section>
+
+    <section>
+      <h2>特点</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>随机跳转</h3>
+          <p>每次打开都会从链接池中随机挑一个目标，重复被整也不会腻。</p>
+        </div>
+        <div class="card">
+          <h3>猝不及防</h3>
+          <p>页面伪装成"正在跳转"的加载页，短暂停顿后才出发，毫无防备。</p>
+        </div>
+        <div class="card">
+          <h3>无法返回</h3>
+          <p>跳转使用 replace 方式，对方按返回键也回不到这个页面。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>怎么玩</h2>
+      <ol>
+        <li>把本网站的链接发给朋友，或者丢进群聊。</li>
+        <li>配上一句让人无法拒绝的诱饵文案，比如"快看这个，笑死我了"。</li>
+        <li>坐等对方发来一句"？？？"。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>温馨提示</h2>
+      <div class="notice">
+        本项目仅供娱乐，请勿用于伪装钓鱼链接、骚扰或任何违法行为。整蛊有度，玩笑别开过头，朋友比乐子重要。
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Jump · 仅供娱乐
+  </footer>
+</body>
+</html>
