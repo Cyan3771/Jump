@@ -49,14 +49,14 @@
     ];
 
     // 国内链接池（rdcn.html 及其后面乱加的路径使用）
-    const CN_LINKS = [
-      "https://www.bilibili.com/video/BV1kwYP6PEtTk", // 冰冰冰一小时
-      "https://www.bilibili.com/video/BV1GJ411x7h7",  // 你被骗了
-      "https://www.4399.com/",                        // 4399 小游戏
-      "https://www.bilibili.com/video/BV1CKYK6uE4B",  // wjw 爱上了 jjs
-      "https://www.bilibili.com/video/BV1t8hG6FE53"   // 陌生链接都敢乱点
+    const PRANK_LINKS = [
+      "https://www.bilibili.com/video/BV1kwYP6PEtT/?spm_id_from=333.337.search-card.all.click", // 冰冰冰1000小时
+      "https://www.bilibili.com/video/BV1GJ411x7h7", // 你被骗了
+      // "https://www.4399.com/",                        // 4399 小游戏
+      "https://www.bilibili.com/video/BV1CKYK6uE4B", //wjw 爱上了 jjs
+      "https://www.bilibili.com/video/BV1t8hG6FE53", //陌生链接都敢乱点
     ];
-
+    
     // 根据请求路径判断用哪个链接池
     const path = location.pathname;
     let pool;
