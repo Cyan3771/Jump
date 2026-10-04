@@ -12,6 +12,21 @@
       color: #333;
       line-height: 1.7;
     }
+    .lang-switch {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #4f46e5;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .lang-switch:hover { border-color: #4f46e5; }
     .hero {
       text-align: center;
       padding: 80px 24px 60px;
@@ -90,59 +105,84 @@
   </style>
 </head>
 <body>
+  <button class="lang-switch" id="langSwitch">EN</button>
+
   <div class="hero">
     <h1>Jump</h1>
-    <p class="tagline">一个专门用来整蛊朋友的网站重定向页面</p>
-    <a class="btn" href="rd.html">立即体验</a>
+    <p class="tagline" data-en="A redirect page built purely to prank your friends">一个专门用来整蛊朋友的网站重定向页面</p>
+    <a class="btn" id="tryBtn" href="rdcn.html" data-en="Try it now">立即体验</a>
   </div>
 
   <main>
     <section>
-      <h2>这是什么</h2>
-      <p>
-        Jump 是一个玩笑性质的跳转页。当有人点开你分享的链接，页面不会多说一句话，
-        而是直接把人随机带去一个整蛊内容——比如经典 Rickroll、彩虹猫、满屏弹跳猫。
-        对方满怀期待点进来，然后一脸问号地被"整"了。
-      </p>
+      <h2 data-en="What is this">这是什么</h2>
+      <p data-en="Jump is a joke of a redirect page. When someone opens a link you shared, it says nothing and quietly sends them to a random prank — a classic Rickroll, Nyan Cat, or a screenful of bouncing cats. They click in with high hopes, then leave with a big question mark.">Jump 是一个玩笑性质的跳转页。当有人点开你分享的链接，页面不会多说一句话，而是直接把人随机带去一个整蛊内容——比如经典 Rickroll、彩虹猫、满屏弹跳猫。对方满怀期待点进来，然后一脸问号地被“整”了。</p>
     </section>
 
     <section>
-      <h2>特点</h2>
+      <h2 data-en="Features">特点</h2>
       <div class="cards">
         <div class="card">
-          <h3>随机跳转</h3>
-          <p>每次打开都会从链接池中随机挑一个目标，重复被整也不会腻。</p>
+          <h3 data-en="Random redirect">随机跳转</h3>
+          <p data-en="Every visit picks a random target from the link pool, so repeat victims never see the same prank twice.">每次打开都会从链接池中随机挑一个目标，重复被整也不会腻。</p>
         </div>
         <div class="card">
-          <h3>猝不及防</h3>
-          <p>页面伪装成"正在跳转"的加载页，短暂停顿后才出发，毫无防备。</p>
+          <h3 data-en="No warning at all">猝不及防</h3>
+          <p data-en="The page poses as an ordinary “Redirecting…” screen and waits a second before it goes off — completely out of the blue.">页面伪装成“正在跳转”的加载页，短暂停顿后才出发，毫无防备。</p>
         </div>
         <div class="card">
-          <h3>无法返回</h3>
-          <p>跳转使用 replace 方式，对方按返回键也回不到这个页面。</p>
+          <h3 data-en="No way back">无法返回</h3>
+          <p data-en="The jump uses replace(), so hitting the back button won’t bring them back to this page.">跳转使用 replace 方式，对方按返回键也回不到这个页面。</p>
         </div>
       </div>
     </section>
 
     <section>
-      <h2>怎么玩</h2>
+      <h2 data-en="How to play">怎么玩</h2>
       <ol>
-        <li>把本网站的链接发给朋友，或者丢进群聊。</li>
-        <li>配上一句让人无法拒绝的诱饵文案，比如"快看这个，笑死我了"。</li>
-        <li>坐等对方发来一句"？？？"。</li>
+        <li data-en="Send the link to a friend, or drop it into a group chat.">把本网站的链接发给朋友，或者丢进群聊。</li>
+        <li data-en="Pair it with bait they can’t refuse, like “Dude, you gotta see this.”">配上一句让人无法拒绝的诱饵文案，比如“快看这个，笑死我了”。</li>
+        <li data-en="Sit back and wait for the “???”.">坐等对方发来一句“？？？”。</li>
       </ol>
     </section>
 
     <section>
-      <h2>温馨提示</h2>
-      <div class="notice">
+      <h2 data-en="Friendly reminder">温馨提示</h2>
+      <div class="notice" data-en="This project is for fun only. Don’t use it to fake phishing links, harass people, or break the law. Keep the prank reasonable — your friends matter more than the joke.">
         本项目仅供娱乐，请勿用于伪装钓鱼链接、骚扰或任何违法行为。整蛊有度，玩笑别开过头，朋友比乐子重要。
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer data-en="Jump · For fun only">
     Jump · 仅供娱乐
   </footer>
+
+  <script>
+    // 读取各元素的中文原文，之后在中英之间切换
+    document.querySelectorAll("[data-en]").forEach((el) => {
+      el.dataset.zh = el.textContent.trim();
+    });
+
+    let lang = "zh";
+    const tryBtn = document.getElementById("tryBtn");
+    const langSwitch = document.getElementById("langSwitch");
+
+    function applyLang(next) {
+      lang = next;
+      document.querySelectorAll("[data-en]").forEach((el) => {
+        el.textContent = el.dataset[lang];
+      });
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      document.title = lang === "zh" ? "Jump - 整蛊跳转页" : "Jump - Prank Redirect Page";
+      // 中文访客去国内版，英文访客去国际版
+      tryBtn.href = lang === "zh" ? "rdcn.html" : "rd.html";
+      langSwitch.textContent = lang === "zh" ? "EN" : "中文";
+    }
+
+    langSwitch.addEventListener("click", () => {
+      applyLang(lang === "zh" ? "en" : "zh");
+    });
+  </script>
 </body>
 </html>
