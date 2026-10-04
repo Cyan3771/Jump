@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>页面跳转中…</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #fff;
+      color: #666;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #eee;
+      border-top-color: #999;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <p>正在跳转，请稍候…</p>
+
+  <script>
+    // GitHub Pages 的 404 兜底页：
+    // 在页面地址后面随便加路径或参数也能正常跳转
+    // 例如 https://ctj.qzz.io/rdcn.html/redict?=iaooiodaj
+
+    // 国际链接池（rd.html 及其后面乱加的路径使用）
+    const INTL_LINKS = [
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // 经典 Rickroll
+      "https://www.youtube.com/watch?v=oHg5SJYRHA0", // 另一个 Rickroll 版本
+      "https://www.nyan.cat/",                        // 彩虹猫
+      "https://cat-bounce.com/",                      // 满屏弹跳猫
+      "https://theuselessweb.com/"                    // 随机无用网站
+    ];
+
+    // 国内链接池（rdcn.html 及其后面乱加的路径使用）
+    const CN_LINKS = [
+      "https://www.bilibili.com/video/BV1kwYP6PEtTk", // 冰冰冰一小时
+      "https://www.bilibili.com/video/BV1GJ411x7h7",  // 你被骗了
+      "https://www.4399.com/",                        // 4399 小游戏
+      "https://www.bilibili.com/video/BV1CKYK6uE4B",  // wjw 爱上了 jjs
+      "https://www.bilibili.com/video/BV1t8hG6FE53"   // 陌生链接都敢乱点
+    ];
+
+    // 根据请求路径判断用哪个链接池
+    const path = location.pathname;
+    let pool;
+    if (path.includes("rdcn")) {
+      pool = CN_LINKS;
+    } else if (path.includes("rd.html")) {
+      pool = INTL_LINKS;
+    } else {
+      pool = CN_LINKS; // 其他乱写的路径默认走国内池
+    }
+
+    // 随机挑一个目标
+    const target = pool[Math.floor(Math.random() * pool.length)];
+
+    // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
+    setTimeout(() => {
+      window.location.replace(target);
+    }, 1000);
+  </script>
+</body>
+</html>
