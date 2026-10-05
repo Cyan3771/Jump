@@ -36,45 +36,47 @@
 
   <script>
     // GitHub Pages 的 404 兜底页：
-    // 在页面地址后面随便加路径或参数也能正常跳转
+    // 地址后面随便加路径或参数也能正常跳转
     // 例如 https://ctj.qzz.io/rdcn.html/redict?=iaooiodaj
 
-    // 国际链接池（rd.html 及其后面乱加的路径使用）
-    const INTL_LINKS = [
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // 经典 Rickroll
-      "https://www.youtube.com/watch?v=oHg5SJYRHA0", // 另一个 Rickroll 版本
-      "https://www.nyan.cat/",                        // 彩虹猫
-      "https://cat-bounce.com/",                      // 满屏弹跳猫
-      "https://theuselessweb.com/"                    // 随机无用网站
-    ];
-
-    // 国内链接池（rdcn.html 及其后面乱加的路径使用）
-    const PRANK_LINKS = [
-      "https://www.bilibili.com/video/BV1kwYP6PEtT/?spm_id_from=333.337.search-card.all.click", // 冰冰冰1000小时
-      "https://www.bilibili.com/video/BV1GJ411x7h7", // 你被骗了
-      // "https://www.4399.com/",                        // 4399 小游戏
-      "https://www.bilibili.com/video/BV1CKYK6uE4B", //wjw 爱上了 jjs
-      "https://www.bilibili.com/video/BV1t8hG6FE53", //陌生链接都敢乱点
-    ];
-    
-    // 根据请求路径判断用哪个链接池
-    const path = location.pathname;
-    let pool;
-    if (path.includes("rdcn")) {
-      pool = PRANK_LINKS;
-    } else if (path.includes("rd.html")) {
-      pool = INTL_LINKS;
-    } else {
-      pool = PRANK_LINKS; // 其他乱写的路径默认走国内池
+    // 解析 links.txt：[xxx] 分节，一行一个链接，以 # 开头的行忽略
+    function parseLinks(text) {
+      const pools = {};
+      let current = null;
+      text.replace(/^\uFEFF/, "").split(/\r?\n/).forEach((line) => {
+        line = line.trim();
+        if (!line || line.startsWith("#")) return;
+        const section = line.match(/^\[(\w+)\]$/);
+        if (section) {
+          current = section[1];
+          pools[current] = pools[current] || [];
+          return;
+        }
+        if (current && /^https?:\/\//i.test(line)) pools[current].push(line);
+      });
+      return pools;
     }
 
-    // 随机挑一个目标
-    const target = pool[Math.floor(Math.random() * pool.length)];
+    // 404 页会出现在任意路径下（如 /rdcn.html/redict），所以用绝对路径读取
+    fetch("/links.txt", { cache: "no-store" })
+      .then((res) => res.text())
+      .then((text) => {
+        const pools = parseLinks(text);
+        // rd.html 相关的路径用国际池，其余（rdcn / 乱写路径）默认国内池
+        const pool = location.pathname.includes("rd.html") ? pools.intl : pools.cn;
+        if (!pool || !pool.length) throw new Error("links.txt 没有可用的链接");
 
-    // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
-    setTimeout(() => {
-      window.location.replace(target);
-    }, 1000);
+        // 随机挑一个目标
+        const target = pool[Math.floor(Math.random() * pool.length)];
+
+        // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
+        setTimeout(() => {
+          window.location.replace(target);
+        }, 1000);
+      })
+      .catch(() => {
+        document.querySelector("p").textContent = "加载失败：请检查 links.txt";
+      });
   </script>
 </body>
 </html>

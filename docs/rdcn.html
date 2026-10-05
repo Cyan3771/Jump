@@ -35,22 +35,42 @@
   <p>正在跳转，请稍候…</p>
 
   <script>
-    // 整蛊链接池（国内可访问的网站）：想增删或替换链接，直接改这里
-    const PRANK_LINKS = [
-      "https://www.bilibili.com/video/BV1kwYP6PEtT/?spm_id_from=333.337.search-card.all.click", // 冰冰冰1000小时
-      "https://www.bilibili.com/video/BV1GJ411x7h7", // 你被骗了
-      // "https://www.4399.com/",                        // 4399 小游戏
-      "https://www.bilibili.com/video/BV1CKYK6uE4B", //wjw 爱上了 jjs
-      "https://www.bilibili.com/video/BV1t8hG6FE53", //陌生链接都敢乱点
-    ];
+    // 解析 links.txt：[xxx] 分节，一行一个链接，以 # 开头的行忽略
+    function parseLinks(text) {
+      const pools = {};
+      let current = null;
+      text.replace(/^\uFEFF/, "").split(/\r?\n/).forEach((line) => {
+        line = line.trim();
+        if (!line || line.startsWith("#")) return;
+        const section = line.match(/^\[(\w+)\]$/);
+        if (section) {
+          current = section[1];
+          pools[current] = pools[current] || [];
+          return;
+        }
+        if (current && /^https?:\/\//i.test(line)) pools[current].push(line);
+      });
+      return pools;
+    }
 
-    // 随机挑一个目标
-    const target = PRANK_LINKS[Math.floor(Math.random() * PRANK_LINKS.length)];
+    // 读取 links.txt 的国内池（[cn]），改链接只需改这一个文件
+    fetch("links.txt", { cache: "no-store" })
+      .then((res) => res.text())
+      .then((text) => {
+        const pool = parseLinks(text).cn || [];
+        if (!pool.length) throw new Error("links.txt 没有可用的链接");
 
-    // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
-    setTimeout(() => {
-      window.location.replace(target);
-    }, 1000);
+        // 随机挑一个目标
+        const target = pool[Math.floor(Math.random() * pool.length)];
+
+        // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
+        setTimeout(() => {
+          window.location.replace(target);
+        }, 1000);
+      })
+      .catch(() => {
+        document.querySelector("p").textContent = "加载失败：请检查 links.txt";
+      });
   </script>
 </body>
 </html>

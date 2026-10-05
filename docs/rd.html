@@ -35,22 +35,42 @@
   <p>loading…</p>
 
   <script>
-    // 整蛊链接池：想增删或替换链接，直接改这里
-    const PRANK_LINKS = [
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // 经典 Rickroll
-      "https://www.youtube.com/watch?v=oHg5SJYRHA0", // 另一个 Rickroll 版本
-      "https://www.nyan.cat/",                        // 彩虹猫
-      "https://cat-bounce.com/",                      // 满屏弹跳猫
-      "https://theuselessweb.com/"                    // 随机无用网站
-    ];
+    // 解析 links.txt：[xxx] 分节，一行一个链接，以 # 开头的行忽略
+    function parseLinks(text) {
+      const pools = {};
+      let current = null;
+      text.replace(/^\uFEFF/, "").split(/\r?\n/).forEach((line) => {
+        line = line.trim();
+        if (!line || line.startsWith("#")) return;
+        const section = line.match(/^\[(\w+)\]$/);
+        if (section) {
+          current = section[1];
+          pools[current] = pools[current] || [];
+          return;
+        }
+        if (current && /^https?:\/\//i.test(line)) pools[current].push(line);
+      });
+      return pools;
+    }
 
-    // 随机挑一个目标
-    const target = PRANK_LINKS[Math.floor(Math.random() * PRANK_LINKS.length)];
+    // 读取 links.txt 的国际池（[intl]），改链接只需改这一个文件
+    fetch("links.txt", { cache: "no-store" })
+      .then((res) => res.text())
+      .then((text) => {
+        const pool = parseLinks(text).intl || [];
+        if (!pool.length) throw new Error("links.txt 没有可用的链接");
 
-    // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
-    setTimeout(() => {
-      window.location.replace(target);
-    }, 1000);
+        // 随机挑一个目标
+        const target = pool[Math.floor(Math.random() * pool.length)];
+
+        // 停顿 1 秒后跳转；用 replace，让对方按返回键回不到本页
+        setTimeout(() => {
+          window.location.replace(target);
+        }, 1000);
+      })
+      .catch(() => {
+        document.querySelector("p").textContent = "Failed to load links.txt";
+      });
   </script>
 </body>
 </html>
